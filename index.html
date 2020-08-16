@@ -21,6 +21,9 @@
 			font-size: 100%;
             display: inline-block !important;
             font-size: 1.3rem; }
+		a {
+			color: inherit;
+			text-decoration: inherit; }
 		.header { 
 			margin-top: 6rem;
 			text-align: center; }
@@ -71,20 +74,19 @@
 		</p>
 		<hr>
 		<h6 class="text-header">Packages</h6>
-		
-		
-		<a class="card" href="private-hello/">
-			private-hello &nbsp;<span class="version">0.4.5</span><br>
+
+		<div class="card">
+			<a href="private-hello/">private-hello</a> &nbsp;<span class="version">0.4.5</span><br>
 			<span class="description">This is an example of a private, github-hosted package. Only me can access this repo, you can try to install it with the pip command but a password is required : only people with repo access can download it.</span>
-		</a>
-		<a class="card" href="public-hello/">
-			public-hello &nbsp;<span class="version">0.1</span><br>
-			<span class="description"> A public github-hosted repo.</span>
-		</a>
-		<a class="card" href="transformers/">
-			transformers &nbsp;<span class="version">3.0.2</span><br>
+		</div>
+		<div class="card">
+			<a href="public-hello/">public-hello</a> &nbsp;<span class="version">0.1</span><br>
+			<span class="description">A public github-hosted repo.</span>
+		</div>
+		<div class="card">
+			<a href="transformers/">transformers</a> &nbsp;<span class="version">3.0.2</span><br>
 			<span class="description">This is the description of the transformers package.</span>
-		</a>
+		</div>
 	</div>
 </body>
 
