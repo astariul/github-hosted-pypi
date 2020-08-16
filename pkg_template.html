@@ -17,38 +17,26 @@
 
 	<style>
 		body { font-family: "Montserrat"; }
-		code {
-			font-size: 100%; }
-		.header { margin-top: 15rem; }
+		code { 
+            font-size: 100%;
+            display: inline-block !important;
+            font-size: 1.4rem; }
+		.header {
+            margin-top: 15rem;
+            font-size: 3.6rem;
+            font-weight: 400;
+            letter-spacing: -.1rem; }
 		.text-header {
 			text-transform: uppercase;
 			font-size: 1.4rem;
 			letter-spacing: .2rem;
 			font-weight: 600; }
-        .wcode { display: inline-block; }
-		.card {
-			display: inline-block;
-			height: auto;
-			min-width: 32%;
-			padding: 0.5rem 2rem;
-			margin: 0.5rem 0.5rem;
-			color: #555;
-			font-size: 1.5rem;
-			font-weight: 600;
-			line-height: 1.5;
-			letter-spacing: .05rem;
-			text-decoration: none;
-			white-space: normal;
-			background-color: transparent;
-			border-radius: 4px;
-			border: 1px solid #bbb;
-			cursor: pointer;
-			box-sizing: border-box; }
 		.version {
-			font-size: 1rem; 
-			font-style: italic;}
-		.description {
-			font-weight: 300; }
+			font-size: 2.3rem; 
+			font-style: italic;
+            font-weight: 300; }
+        .elem {
+            margin: 1rem 0rem; }
 	</style>
 
 	<title>Pypi - YourCompany</title>
@@ -57,18 +45,26 @@
 <body>
 	<div class="container">
 		<section class="header">
-			<h3 class="title">&lt;package_name&gt;</h3>
+            &lt;package_name&gt; &nbsp;<span class="version">&lt;version&gt;</span>
         </section>
-        <pre><code class="wcode">pip install &lt;package_name&gt; --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
+        <pre><code>pip install &lt;package_name&gt; --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
 
         <a href="&lt;link&gt;"></a>
-        
-		<br>
-		<p>
-			Welcome to the private Python package index of YourCompany !<br>You can install packages with :
-			<pre><code>pip install &lt;package_name&gt; --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
-		</p>
-		<hr>
+
+        <hr>
+
+        <div class="row">
+            <div class="one-third column">
+                <button onclick="location.href='&lt;link&gt;'">Homepage</button>
+                <p class="elem"><b>Author:</b> &lt;author&gt;</p>
+            </div>
+            <div class="two-thirds column">
+                <h6 class="text-header">Description</h6>
+                <p>
+                    &lt;Long description&gt;
+                </p>
+            </div>
+        </div>
 	</div>
 </body>
 
