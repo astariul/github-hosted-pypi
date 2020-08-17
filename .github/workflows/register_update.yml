@@ -17,11 +17,9 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python --version
-      - run: git branch
-      - name: Dump GitHub context
+      - name: Get GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - run: ${{ github.event.issue.labels }}
-      - run: printf "${{ github.event.issue.body }}"
+      - name: Register or update
+        run: python .github/actions.py
