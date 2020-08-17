@@ -19,7 +19,7 @@ def parse_issue(issue_ctx):
         
         if arg_name == "Long description":
             # Special case, where we have more than 1 line : it contain HTML code
-            arg_value = arg_value.split('`')[1]
+            arg_value = arg_value.split('```')[1] if '```' in arg_value else arg_value.split('`')[1]
             
             code_lang = arg_value.split('\n')[0].strip()
             if code_lang != 'html':
@@ -114,4 +114,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
