@@ -77,9 +77,9 @@ def register(issue_ctx):
     spans[2].string = args['short description']       # Second span contain the short description
 
     # Add it to our index and save it
-    # last_anchor.insert_after(new_anchor)
-    # with open(INDEX_FILE, 'wb') as index:
-    #     index.write(soup.prettify("utf-8"))
+    last_anchor.insert_after(new_anchor)
+    with open(INDEX_FILE, 'wb') as index:
+        index.write(soup.prettify("utf-8"))
 
     # Then get the template, replace the content and write to the right place
     with open(TEMPLATE_FILE) as temp_file:
