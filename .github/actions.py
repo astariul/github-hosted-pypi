@@ -19,9 +19,9 @@ def parse_issue(issue_ctx):
         
         if arg_name == "Long description":
             # Special case, where we have more than 1 line : it contain HTML code
-            arg_value = arg_value.split('```')[1]
+            arg_value = arg_value.split('`')[1]
             
-            code_lang = arg_value.split('\n').strip()
+            code_lang = arg_value.split('\n')[0].strip()
             if code_lang != 'html':
                 raise ValueError("The {} argument should contain a HTML code section. But it contain {} code.".format(arg_name, code_lang))
 
@@ -32,6 +32,13 @@ def parse_issue(issue_ctx):
         
         arguments[arg_name.lower()] = arg_value
     return arguments
+
+
+def print_args(args):
+    print("\n--- Arguments detected from issue ---\n")
+    for arg_name, arg_value in args.items():
+        print("\t{} : {}".format(arg_name, arg_value))
+    print("\n")
 
 
 def check_args(args, must_have):
@@ -52,8 +59,10 @@ def package_exists(soup, package_name):
 
 def register(issue_ctx):
     args = parse_issue(issue_ctx)
+    print_args(args)
     check_args(args, ['package name', 'version', 'author', 'short description', 'long description', 'homepage', 'link'])
-    soup = BeautifulSoup(INDEX_FILE)
+    with open(INDEX_FILE) as html_file:
+        soup = BeautifulSoup(html_file, "html.parser")
 
     if package_exists(soup, args['package name']):
         raise ValueError("Package {} seems to already exists".format(args['package name']))
@@ -62,26 +71,26 @@ def register(issue_ctx):
     last_anchor = soup.find_all('a')[-1]        # Copy the last anchor element
     new_anchor = copy.copy(last_anchor)
     new_anchor['href'] = "{}/".format(args['package name'])
-    new_anchor.string = "{} &nbsp;".format(args['package name'])
+    new_anchor.contents[0].replace_with(args['package name'])
     spans = new_anchor.find_all('span')
-    spans[0].string = args['version']       # First span contain the version
-    spans[1].string = args['short description']       # Second span contain the short description
+    spans[1].string = args['version']       # First span contain the version
+    spans[2].string = args['short description']       # Second span contain the short description
 
     # Add it to our index and save it
-    last_anchor.insert_after(new_anchor)
-    with open(INDEX_FILE, 'wb') as index:
-        index.write(soup.prettify("utf-8"))
+    # last_anchor.insert_after(new_anchor)
+    # with open(INDEX_FILE, 'wb') as index:
+    #     index.write(soup.prettify("utf-8"))
 
     # Then get the template, replace the content and write to the right place
     with open(TEMPLATE_FILE) as temp_file:
         template = temp_file.read()
 
-    template.replace("&lt;package_name&gt;", args['package name'])
-    template.replace("&lt;version&gt;", args['version'])
-    template.replace("&lt;link&gt;", args['link'])
-    template.replace("&lt;homepage&gt;", args['homepage'])
-    template.replace("&lt;author&gt;", args['author'])
-    template.replace("&lt;Long description&gt;", args['long description'])
+    template = template.replace("_package_name", args['package name'])
+    template = template.replace("_version", args['version'])
+    template = template.replace("_link", args['link'])
+    template = template.replace("_homepage", args['homepage'])
+    template = template.replace("_author", args['author'])
+    template = template.replace("_long_description", args['long description'])
 
     os.mkdir(args['package name'])
     package_index = os.path.join(args['package name'], "index.html")
@@ -105,3 +114,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
