@@ -20,6 +20,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - run: python --version
     - run: git branch
-    - run: ${{ toJson(github.event.issue) }}
+    - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
     # - run: ${{ github.event.issue.labels }}
     # - run: printf "${{ github.event.issue.body }}"
