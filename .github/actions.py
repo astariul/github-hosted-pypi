@@ -2,22 +2,18 @@ import os
 import json
 
 
-def is_register_job(context):
-    return "register-package" in [label.name for label in context.event.issue.labels]
-
-
-def is_update_job(context):
-    return "update-package" in [label.name for label in context.event.issue.labels]
+def is_label_x(context, label_name):
+    return label_name in [label['name'] for label in context['event']['issue']['labels']]
 
 
 def main():
     # Get the context from the environment variable
     context = json.loads(os.environ['GITHUB_CONTEXT'])
 
-    if is_register_job(context):
+    if is_label_x(context, 'register-package'):
         print("This is a register job !")
 
-    if is_update_job(context):
+    if is_label_x(context, 'update-package'):
         print("This is a update job !")
 
 
