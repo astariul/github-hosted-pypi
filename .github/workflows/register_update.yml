@@ -20,6 +20,5 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - run: python --version
     - run: echo $(git branch)
-    - run: |
-      echo "${{ context.label }}"
-      echo "${{ context.changes }}"
+    - run: echo "${{ context.label }}"
+    - run: echo "${{ context.changes }}"
