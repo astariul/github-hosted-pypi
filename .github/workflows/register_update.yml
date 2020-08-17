@@ -27,5 +27,5 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           commit-message: ":package: [:robot:] Modify package in PyPi index"
-          title: "[:robot:] ${{ github.event.issue.title }}"
+          title: "[🤖] ${{ github.event.issue.title }}"
           body: "Fix #${{ github.event.issue.number }}"
