@@ -29,3 +29,4 @@ jobs:
           commit-message: ":package: [:robot:] Modify package in PyPi index"
           title: "[🤖] ${{ github.event.issue.title }}"
           body: "Fix #${{ github.event.issue.number }}"
+          branch: "pr/patch-${{ github.event.issue.number }}"
