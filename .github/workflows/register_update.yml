@@ -20,5 +20,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - run: python --version
     - run: git branch
-    - run: printf "${{ github.event.issue.labels.toString() }}"
-    - run: printf "${{ github.event.issue.body }}"
+    - run: ${{ toJson(github.event.issue) }}
+    # - run: ${{ github.event.issue.labels }}
+    # - run: printf "${{ github.event.issue.body }}"
