@@ -20,7 +20,9 @@ jobs:
       - name: Run Action
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: python .github/actions.py
+        run: |
+          pip install beautifulsoup4
+          python .github/actions.py
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
