@@ -18,6 +18,8 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - run: echo "${{ toJson(github.event) }}"
-    - run: echo ${git branch}
     - run: python --version
+    - run: echo $(git branch)
+    - run: |
+      echo "${{ context.label }}}"
+      echo "${{ context.changes }}}"
