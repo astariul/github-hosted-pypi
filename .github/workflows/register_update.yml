@@ -19,6 +19,6 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - run: python --version
-    - run: echo $(git branch)
-    - run: echo "${{ github.event.issue.label }}"
-    - run: echo "${{ github.event.issue.body }}"
+    - run: git branch
+    - run: printf "${{ github.event.issue.labels }}"
+    - run: printf "${{ github.event.issue.body }}"
