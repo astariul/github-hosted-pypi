@@ -1,0 +1,27 @@
+name: register_update
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Show issue content
+      run: echo "${{ toJson(github.event) }}"
+    - name: Show branches
+      run: echo ${git branch}
+    - name: Use Python Lol
+      run: python --version
+      
