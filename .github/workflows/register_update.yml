@@ -5,7 +5,7 @@ on:
     types: [labeled]
 
 jobs:
-  one:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -22,6 +22,6 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT
+        run: echo "$GITHUB_CONTEXT"
       - run: ${{ github.event.issue.labels }}
       - run: printf "${{ github.event.issue.body }}"
