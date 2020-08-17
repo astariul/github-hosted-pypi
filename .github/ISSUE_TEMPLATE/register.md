@@ -7,7 +7,7 @@ labels: register-package
 
 ## 🔶 New package registration form
 
-- **Package name :** <!-- The exact name of the package, lower-cased and without `-` (replace it with `_`) -->
+- **Package name :** <!-- The exact name of the package -->
 - **Version :** <!-- Version of the package -->
 - **Author :** <!-- Name of the author(s) of the package -->
 - **Short description :** <!-- A 1 sentence, 1 line description of the package -->
