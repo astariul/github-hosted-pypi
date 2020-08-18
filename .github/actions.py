@@ -93,7 +93,7 @@ def register(issue_ctx):
 
     template = template.replace("_package_name", args['package name'])
     template = template.replace("_version", args['version'])
-    template = template.replace("_link", args['link'])
+    template = template.replace("_link", "{}#egg={}-{}".format(args['link'], normalize(args['package name']), args['version']))
     template = template.replace("_homepage", args['homepage'])
     template = template.replace("_author", args['author'])
     template = template.replace("_long_description", args['long description'])
