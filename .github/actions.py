@@ -107,7 +107,7 @@ def register(issue_ctx):
 def update(issue_ctx):
     args = parse_issue(issue_ctx)
     print_args(args)
-    check_args(args, ['package name', 'version', 'link for the new version'])
+    check_args(args, ['package name', 'new version', 'link for the new version'])
 
     index_file = os.path.join(args['package name'], INDEX_FILE) 
     with open(index_file) as html_file:
@@ -116,13 +116,13 @@ def update(issue_ctx):
     # Create a new anchor element for our new version
     last_anchor = soup.find_all('a')[-1]        # Copy the last anchor element
     new_anchor = copy.copy(last_anchor)
-    new_anchor['href'] = "{}#egg={}-{}".format(args['link for the new version'], normalize(args['package name']), args['version'])
+    new_anchor['href'] = "{}#egg={}-{}".format(args['link for the new version'], normalize(args['package name']), args['new version'])
 
     # Add it to our index
     last_anchor.insert_after(new_anchor)
 
     # Change the latest version
-    soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(args['version']) 
+    soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(args['new version']) 
 
     # Save it
     with open(index_file, 'wb') as index:
