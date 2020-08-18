@@ -1,12 +1,18 @@
 import os
 import json
 import copy
+import re
 
 from bs4 import BeautifulSoup
 
 
 INDEX_FILE = "index.html"
 TEMPLATE_FILE = "pkg_template.html"
+
+
+def normalize(name):
+    """ From PEP503 : https://www.python.org/dev/peps/pep-0503/ """
+    return re.sub(r"[-_.]+", "-", name).lower()
 
 
 def parse_issue(issue_ctx):
@@ -93,9 +99,34 @@ def register(issue_ctx):
     template = template.replace("_long_description", args['long description'])
 
     os.mkdir(args['package name'])
-    package_index = os.path.join(args['package name'], "index.html")
+    package_index = os.path.join(args['package name'], INDEX_FILE)
     with open(package_index, "w") as f:
         f.write(template)
+
+
+def update(issue_ctx):
+    args = parse_issue(issue_ctx)
+    print_args(args)
+    check_args(args, ['package name', 'version', 'link for the new version'])
+
+    index_file = os.path.join(args['package name'], INDEX_FILE) 
+    with open(index_file) as html_file:
+        soup = BeautifulSoup(html_file, "html.parser")
+
+    # Create a new anchor element for our new version
+    last_anchor = soup.find_all('a')[-1]        # Copy the last anchor element
+    new_anchor = copy.copy(last_anchor)
+    new_anchor['href'] = "{}#egg={}-{}".format(args['link for the new version'], normalize(args['package name']), args['version'])
+
+    # Add it to our index
+    last_anchor.insert_after(new_anchor)
+
+    # Change the latest version
+    soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(args['version']) 
+
+    # Save it
+    with open(index_file, 'wb') as index:
+        index.write(soup.prettify("utf-8"))
 
 
 def main():
@@ -109,7 +140,7 @@ def main():
         register(issue_ctx)
 
     if 'update-package' in labels:
-        print("This is a update job !")
+        update(issue_ctx)
 
 
 if __name__ == "__main__":
