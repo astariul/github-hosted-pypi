@@ -1,11 +1,11 @@
 ---
-name: 🔷 Update a package
+name: 🔵 Update a package
 about: Use this template for adding a new version of an existing package in your PyPi index.
-title: "🔷 Update package :"
+title: "🔵 Update package :"
 labels: update-package
 ---
 
-## 🔷 Package update form
+## 🔵 Package update form
 
 - **Package name :** <!-- The exact name of the package -->
 - **New version :** <!-- The new version of the package -->
