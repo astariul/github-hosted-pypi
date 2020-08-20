@@ -109,7 +109,20 @@ def update(issue_ctx):
     args = parse_issue(issue_ctx)
     print_args(args)
     check_args(args, ['package name', 'new version', 'link for the new version'])
+    with open(INDEX_FILE) as html_file:
+        soup = BeautifulSoup(html_file, "html.parser")
 
+    if not package_exists(soup, args['package name']):
+        raise ValueError("Package {} seems to not exists".format(args['package name']))
+
+    # Change the version in the main page
+    anchor = soup.find('a', attrs={"href": "{}/".format(args['package name'])})
+    spans = anchor.find_all('span')
+    spans[1].string = args['new version']
+    with open(INDEX_FILE, 'wb') as index:
+        index.write(soup.prettify("utf-8"))
+
+    # Change the package page
     index_file = os.path.join(args['package name'], INDEX_FILE) 
     with open(index_file) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
