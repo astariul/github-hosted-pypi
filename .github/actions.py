@@ -2,6 +2,7 @@ import os
 import json
 import copy
 import re
+import shutil
 
 from bs4 import BeautifulSoup
 
@@ -129,6 +130,26 @@ def update(issue_ctx):
         index.write(soup.prettify("utf-8"))
 
 
+def delete(issue_ctx):
+    args = parse_issue(issue_ctx)
+    print_args(args)
+    check_args(args, ['package name'])
+    with open(INDEX_FILE) as html_file:
+        soup = BeautifulSoup(html_file, "html.parser")
+
+    if not package_exists(soup, args['package name']):
+        raise ValueError("Package {} seems to not exists".format(args['package name']))
+
+    # Remove the package directory
+    shutil.rmtree(args['package name'])
+
+    # Find and remove the anchor corresponding to our package
+    anchor = soup.find('a', attrs={"href": "{}/".format(args['package name'])})
+    anchor.extract()
+    with open(INDEX_FILE, 'wb') as index:
+        index.write(soup.prettify("utf-8"))
+
+
 def main():
     # Get the context from the environment variable
     context = json.loads(os.environ['GITHUB_CONTEXT'])
@@ -141,6 +162,9 @@ def main():
 
     if 'update-package' in labels:
         update(issue_ctx)
+
+    if 'delete-package' in labels:
+        delete(issue_ctx)
 
 
 if __name__ == "__main__":
