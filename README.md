@@ -8,7 +8,7 @@ Make all your private packages accessible in one place<br>with this github-hoste
 
 <p align="center">
   <a href="#description">Description</a> •
-  <a href="#try-it--">Try it !</a> •
+  <a href="#try-it-">Try it !</a> •
   <a href="#get-started">Get Started</a> •
   <a href="#modify-indexed-packages">Modify indexed packages</a> •
   <a href="#contribute">Contribute</a> •
