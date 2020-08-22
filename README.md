@@ -4,6 +4,19 @@
 Make all your private packages accessible in one place<br>with this github-hosted PyPi index
 </p>
 
+---
+
+<p align="center">
+  <a href="#description">Description</a> •
+  <a href="#try-it--">Try it !</a> •
+  <a href="#get-started">Get Started</a> •
+  <a href="#modify-indexed-packages">Modify indexed packages</a> •
+  <a href="#contribute">Contribute</a> •
+  <a href="#references">References</a>
+</p>
+
+---
+
 ## Features
 
 * **:octocat: Github-hosted**
@@ -81,8 +94,8 @@ If you come across anything weird / that can be improved, please get in touch !
 
 ## References
 
-**This repository is greatly inspired from [this repository](https://github.com/ceddlyburge/python-package-server).**  
-It's just a glorified version, with cleaner pages and github actions for easily adding, updating and removing packages from your repository.
+**This is greatly inspired from [this repository](https://github.com/ceddlyburge/python-package-server).**  
+It's just a glorified version, with cleaner pages and github actions for easily adding, updating and removing packages from your index.
 
 Also check the [blogpost](https://www.freecodecamp.org/news/how-to-use-github-as-a-pypi-server-1c3b0d07db2/) of the original author !
 
