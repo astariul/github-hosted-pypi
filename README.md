@@ -66,7 +66,7 @@ Now try to install the package `private-hello` :
 pip install private-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/
 ```
 
-**It will not work, because it's private and only me can access it !**
+_It will not work, because it's private and only me can access it !_
 
 ## Get started
 
