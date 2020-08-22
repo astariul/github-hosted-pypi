@@ -31,7 +31,20 @@ Try to install the package `public-hello` :
 pip install public-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/
 ```
 
-It will also install the package `mydependency`, automatically !
+It will also install the package `mydependency`, automatically ! 
+
+Try it with :
+
+```python
+from public_hello import hi
+print(hi())
+```
+
+You can also install a specific version :
+
+```console
+pip install public-hello==0.1 --extra-index-url https://astariul.github.io/github-hosted-pypi/
+```
 
 ---
 
@@ -40,21 +53,31 @@ Now try to install the package `private-hello` :
 pip install private-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/
 ```
 
-It will not work, because it's private and only me can access it !
+**It will not work, because it's private and only me can access it !**
 
 ## Get started
 
-* Use this template and create your own repository : <a class="btn btn-primary ml-2" href="/astariul/github-hosted-pypi/generate">Use this template</a>
+* Use this template and create your own repository : [![Generic badge](https://img.shields.io/badge/Use%20this%20template-blueviolet.svg)](https://github.com/astariul/github-hosted-pypi/generate)
 * Customize `index.html` and `pkg_template.html` to your liking
 * You're ready to go !
 
 ## Modify indexed packages
 
-TODO
+Now that your PyPi index is setup, you can register / update / delete packages indexed.  
+_Github actions are setup to do it automatically for you._
+
+You just have to :
+* Open an issue with the appropriate template
+* Fill the information of the template (replace the comments)
+* Wait a bit
+* Check the new PR opened (ensure the code added correspond to what you want)
+* Merge the PR
 
 ## Contribute
 
-TODO
+Issues and PR are welcome !
+
+If you come across anything weird / that can be improved, please get in touch !
 
 ## References
 
