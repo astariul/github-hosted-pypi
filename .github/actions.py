@@ -167,16 +167,15 @@ def main():
     # Get the context from the environment variable
     context = json.loads(os.environ['GITHUB_CONTEXT'])
     issue_ctx = context['event']['issue']
+    title = issue_ctx['title']
 
-    labels = [label['name'] for label in issue_ctx['labels']]
-
-    if 'register-package' in labels:
+    if title.startswith("🟢"):
         register(issue_ctx)
 
-    if 'update-package' in labels:
+    if title.startswith("🔵"):
         update(issue_ctx)
 
-    if 'delete-package' in labels:
+    if title.startswith("🔴"):
         delete(issue_ctx)
 
 
