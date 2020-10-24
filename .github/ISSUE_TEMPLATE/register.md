@@ -2,7 +2,6 @@
 name: 🟢 Register a new package
 about: Use this template for registering a new package in your PyPi index.
 title: "🟢 New package :"
-labels: register-package
 ---
 
 ## 🟢 New package registration form

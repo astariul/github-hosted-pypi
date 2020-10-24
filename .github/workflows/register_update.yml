@@ -2,7 +2,7 @@ name: register_update
 
 on:
   issues:
-    types: [labeled]
+    types: [opened, edited]
 
 jobs:
   build:
