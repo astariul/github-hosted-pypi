@@ -163,6 +163,8 @@ RUN --mount=type=secret,id=gh_auth,dst=/root/.netrc pip install <package_name> -
 
 `sudo DOCKER_BUILDKIT=1 docker build --secret id=gh_auth,src=./gh_auth.txt .`
 
+---
+
 **_If you have any questions or ideas to improve this FAQ, please open a PR / blank issue !_**
 
 ## Contribute
