@@ -135,6 +135,36 @@ import tensorflow
 
 _Note : While it's possible to do like this, it's better to have a unique name for your package, to avoid confusion._
 
+#### Q. How to download private package from Docker ?
+
+Building a Docker image is not interactive, so there is no prompt to type username and password.  
+Instead, you should put your Github credentials in a `.netrc` file, so `pip` can authenticate when cloning from Github.  
+To do this securely on Docker, you should use Docker secrets. Here is a quick tutorial on how to do :
+
+**Step 1** : Save your credentials in a secret file. Follow this example :
+
+```
+machine github.com
+    login <gh_user>
+    password <gh_pass>
+```
+
+Let's name this file `gh_auth.txt`.
+
+**Step 2** : Create your Docker file. In the docker file you should mount the secret file in `.netrc`, and run the command where you need authentication. For example :
+
+```dockerfile
+FROM python:3
+
+RUN --mount=type=secret,id=gh_auth,dst=/root/.netrc pip install <package_name> --extra-index-url https://astariul.github.io/github-hosted-pypi/
+```
+
+**Step 3** : Build your Docker image, specifying the location of the secret created in step 1 :
+
+`sudo DOCKER_BUILDKIT=1 docker build --secret id=gh_auth,src=./gh_auth.txt .`
+
+**_If you have any questions or ideas to improve this FAQ, please open a PR / blank issue !_**
+
 ## Contribute
 
 Issues and PR are welcome !
