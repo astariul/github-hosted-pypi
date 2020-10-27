@@ -70,14 +70,15 @@ def register(issue_ctx):
     check_args(args, ['package name', 'version', 'author', 'short description', 'long description', 'homepage', 'link'])
     with open(INDEX_FILE) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
+    n_package_name = normalize(args['package name'])
 
-    if package_exists(soup, args['package name']):
-        raise ValueError("Package {} seems to already exists".format(args['package name']))
+    if package_exists(soup, n_package_name):
+        raise ValueError("Package {} seems to already exists".format(n_package_name))
 
     # Create a new anchor element for our new package
     last_anchor = soup.find_all('a')[-1]        # Copy the last anchor element
     new_anchor = copy.copy(last_anchor)
-    new_anchor['href'] = "{}/".format(args['package name'])
+    new_anchor['href'] = "{}/".format(n_package_name)
     new_anchor.contents[0].replace_with(args['package name'])
     spans = new_anchor.find_all('span')
     spans[1].string = args['version']       # First span contain the version
@@ -94,13 +95,13 @@ def register(issue_ctx):
 
     template = template.replace("_package_name", args['package name'])
     template = template.replace("_version", args['version'])
-    template = template.replace("_link", "{}#egg={}-{}".format(args['link'], normalize(args['package name']), args['version']))
+    template = template.replace("_link", "{}#egg={}-{}".format(args['link'], n_package_name, args['version']))
     template = template.replace("_homepage", args['homepage'])
     template = template.replace("_author", args['author'])
     template = template.replace("_long_description", args['long description'])
 
-    os.mkdir(args['package name'])
-    package_index = os.path.join(args['package name'], INDEX_FILE)
+    os.mkdir(n_package_name)
+    package_index = os.path.join(n_package_name, INDEX_FILE)
     with open(package_index, "w") as f:
         f.write(template)
 
@@ -111,26 +112,27 @@ def update(issue_ctx):
     check_args(args, ['package name', 'new version', 'link for the new version'])
     with open(INDEX_FILE) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
+    n_package_name = normalize(args['package name'])
 
-    if not package_exists(soup, args['package name']):
-        raise ValueError("Package {} seems to not exists".format(args['package name']))
+    if not package_exists(soup, n_package_name):
+        raise ValueError("Package {} seems to not exists".format(n_package_name))
 
     # Change the version in the main page
-    anchor = soup.find('a', attrs={"href": "{}/".format(args['package name'])})
+    anchor = soup.find('a', attrs={"href": "{}/".format(n_package_name)})
     spans = anchor.find_all('span')
     spans[1].string = args['new version']
     with open(INDEX_FILE, 'wb') as index:
         index.write(soup.prettify("utf-8"))
 
     # Change the package page
-    index_file = os.path.join(args['package name'], INDEX_FILE) 
+    index_file = os.path.join(n_package_name, INDEX_FILE) 
     with open(index_file) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
 
     # Create a new anchor element for our new version
     last_anchor = soup.find_all('a')[-1]        # Copy the last anchor element
     new_anchor = copy.copy(last_anchor)
-    new_anchor['href'] = "{}#egg={}-{}".format(args['link for the new version'], normalize(args['package name']), args['new version'])
+    new_anchor['href'] = "{}#egg={}-{}".format(args['link for the new version'], n_package_name, args['new version'])
 
     # Add it to our index
     last_anchor.insert_after(new_anchor)
@@ -149,15 +151,16 @@ def delete(issue_ctx):
     check_args(args, ['package name'])
     with open(INDEX_FILE) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
+    n_package_name = normalize(args['package name'])
 
-    if not package_exists(soup, args['package name']):
-        raise ValueError("Package {} seems to not exists".format(args['package name']))
+    if not package_exists(soup, n_package_name):
+        raise ValueError("Package {} seems to not exists".format(n_package_name))
 
     # Remove the package directory
-    shutil.rmtree(args['package name'])
+    shutil.rmtree(n_package_name)
 
     # Find and remove the anchor corresponding to our package
-    anchor = soup.find('a', attrs={"href": "{}/".format(args['package name'])})
+    anchor = soup.find('a', attrs={"href": "{}/".format(n_package_name)})
     anchor.extract()
     with open(INDEX_FILE, 'wb') as index:
         index.write(soup.prettify("utf-8"))
