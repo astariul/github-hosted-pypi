@@ -36,13 +36,13 @@ _While the PyPi index is public, private packages indexed here are kept private 
 
 ## Try it !
 
-Visit [astariul.github.io/github-hosted-pypi/](http://astariul.github.io/github-hosted-pypi/) and try to install packages indexed there !
+Visit [astariul-colanim.github.io/github-hosted-pypi/](http://astariul-colanim.github.io/github-hosted-pypi/) and try to install packages indexed there !
 
 ---
 
 Try to install the package `public-hello` :
 ```console
-pip install public-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/
+pip install public-hello --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/
 ```
 
 It will also install the package `mydependency`, automatically ! 
@@ -57,21 +57,21 @@ print(hi())
 You can also install a specific version :
 
 ```console
-pip install public-hello==0.1 --extra-index-url https://astariul.github.io/github-hosted-pypi/
+pip install public-hello==0.1 --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/
 ```
 
 ---
 
 Now try to install the package `private-hello` :
 ```console
-pip install private-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/
+pip install private-hello --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/
 ```
 
 _It will not work, because it's private and only me can access it !_
 
 ## Get started
 
-* Use this template and create your own repository : [![Generic badge](https://img.shields.io/badge/Use%20this%20template-blueviolet.svg)](https://github.com/astariul/github-hosted-pypi/generate)
+* Use this template and create your own repository : [![Generic badge](https://img.shields.io/badge/Use%20this%20template-blueviolet.svg)](https://github.com/astariul-colanim/github-hosted-pypi/generate)
 * Go to `Settings` of your repository, and enable Github Page
 * Customize `index.html` and `pkg_template.html` to your liking
 * You're ready to go ! Visit `<user>.github.io/<repo_name>` to see your PyPi index
@@ -100,10 +100,10 @@ If the repository hosting code is private, you will need to authenticate with Gi
 
 #### Q. What happen behind the scenes ?
 
-When running `pip install <package_name> --extra-index-url https://astariul.github.io/github-hosted-pypi/`, the following happen :
+When running `pip install <package_name> --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/`, the following happen :
 
 1. `pip` will look at `https://pypi.org/`, the default, public index, trying to find a package with the specified name.
-2. If it can't find, it will look at `https://astariul.github.io/github-hosted-pypi/`.
+2. If it can't find, it will look at `https://astariul-colanim.github.io/github-hosted-pypi/`.
 3. If the package is found there, the link of the package is returned to `pip` (`git+<repo_link>@<tag>`).
 4. From this link, `pip` understand it's a Github repository and will clone the repository (at the specific tag) locally.
 5. From the cloned repository, `pip` install the package.
@@ -126,7 +126,7 @@ To do this :
 You can just specify a different name for your indexed package. Just give it a different name in the form when registering it.
 
 For example if you have a private package named `tensorflow`, when you register it in this index, you can name it `my_cool_tensorflow`, so there is no name-collision with the public package `tensorflow`.  
-Then you can install it with `pip install my_cool_tensorflow --extra-index-url https://astariul.github.io/github-hosted-pypi/`.
+Then you can install it with `pip install my_cool_tensorflow --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/`.
 
 Then from `python`, you can just do :
 ```python
@@ -156,7 +156,7 @@ Let's name this file `gh_auth.txt`.
 ```dockerfile
 FROM python:3
 
-RUN --mount=type=secret,id=gh_auth,dst=/root/.netrc pip install <package_name> --extra-index-url https://astariul.github.io/github-hosted-pypi/
+RUN --mount=type=secret,id=gh_auth,dst=/root/.netrc pip install <package_name> --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/
 ```
 
 **Step 3** : Build your Docker image, specifying the location of the secret created in step 1 :
