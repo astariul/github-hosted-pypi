@@ -154,6 +154,7 @@ Let's name this file `gh_auth.txt`.
 **Step 2** : Create your Docker file. In the docker file you should mount the secret file in `.netrc`, and run the command where you need authentication. For example :
 
 ```dockerfile
+# syntax=docker/dockerfile:experimental
 FROM python:3
 
 RUN --mount=type=secret,id=gh_auth,dst=/root/.netrc pip install <package_name> --extra-index-url https://astariul-colanim.github.io/github-hosted-pypi/
