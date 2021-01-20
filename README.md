@@ -145,9 +145,12 @@ To do this securely on Docker, you should use Docker secrets. Here is a quick tu
 
 ```
 machine github.com
-    login <gh_user>
-    password <gh_pass>
+	login <gh_user>
+	password <gh_pass>
 ```
+
+⚠️ _Syntax is important : ensure you're using **tabulation**, and the line endings are **`\n`**.  
+So careful if you're using a IDE that replace tabs by spaces or if you're on Windows (where line endings are `\r\n`) !_
 
 Let's name this file `gh_auth.txt`.
 
