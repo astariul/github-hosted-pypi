@@ -64,7 +64,7 @@ def package_exists(soup, package_name):
     return False
 
 
-def register(issue_ctx):
+def register(pkg_name, version, author, short_desc, long_desc, homepage, link):
     args = parse_issue(issue_ctx)
     print_args(args)
     check_args(args, ['package name', 'version', 'author', 'short description', 'long description', 'homepage', 'link'])
@@ -106,7 +106,7 @@ def register(issue_ctx):
         f.write(template)
 
 
-def update(issue_ctx):
+def update(pkg_name, version, link):
     args = parse_issue(issue_ctx)
     print_args(args)
     check_args(args, ['package name', 'new version', 'link for the new version'])
@@ -145,7 +145,7 @@ def update(issue_ctx):
         index.write(soup.prettify("utf-8"))
 
 
-def delete(issue_ctx):
+def delete(pkg_name):
     args = parse_issue(issue_ctx)
     print_args(args)
     check_args(args, ['package name'])
@@ -167,19 +167,27 @@ def delete(issue_ctx):
 
 
 def main():
-    # Get the context from the environment variable
-    context = json.loads(os.environ['GITHUB_CONTEXT'])
-    issue_ctx = context['event']['issue']
-    title = issue_ctx['title']
+    # Call the right method, with the right arguments
+    action = os.environ["PKG_ACTION"]
 
-    if title.startswith("🟢"):
-        register(issue_ctx)
-
-    if title.startswith("🔵"):
-        update(issue_ctx)
-
-    if title.startswith("🔴"):
-        delete(issue_ctx)
+    if action == "REGISTER":
+        register(
+            pkg_name=os.environ["PKG_NAME"],
+            version=os.environ["PKG_VERSION"],
+            author=os.environ["PKG_AUTHOR"],
+            short_desc=os.environ["PKG_SHORT_DESC"],
+            long_desc=os.environ["PKG_LONG_DESC"],
+            homepage=os.environ["PKG_HOMEPAGE"],
+            link=os.environ["PKG_LINK"],
+        )
+    elif action == "DELETE":
+        delete(pkg_name=os.environ["PKG_NAME"])
+    elif action == "UPDATE":
+        update(
+            pkg_name=os.environ["PKG_NAME"],
+            version=os.environ["PKG_VERSION"],
+            link=os.environ["PKG_LINK"],
+        )
 
 
 if __name__ == "__main__":
