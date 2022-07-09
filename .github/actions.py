@@ -5,10 +5,12 @@ import re
 import shutil
 
 from bs4 import BeautifulSoup
+import yaml
 
 
 INDEX_FILE = "index.html"
 TEMPLATE_FILE = "pkg_template.html"
+YAML_ACTION_FILES = [".github/workflows/delete.yml", ".github/workflows/update.yml"]
 
 
 def normalize(name):
@@ -62,6 +64,16 @@ def register(pkg_name, version, author, short_desc, long_desc, homepage, link):
     package_index = os.path.join(norm_pkg_name, INDEX_FILE)
     with open(package_index, "w") as f:
         f.write(template)
+
+    # Finally, add the package in the github actions YAML files
+    for action_file in YAML_ACTION_FILES:
+        with open(action_file, "r") as f:
+            action = yaml.safe_load(f)
+
+        action["on"]["workflow_dispatch"]["inputs"]["package_name"]["options"].append(pkg_name)
+
+        with open(action_file, "w") as f:
+            yaml.dump(action, f, default_flow_style=False)
 
 
 def update(pkg_name, version, link):
@@ -118,6 +130,16 @@ def delete(pkg_name):
     anchor.extract()
     with open(INDEX_FILE, 'wb') as index:
         index.write(soup.prettify("utf-8"))
+
+    # Finally, add the package in the github actions YAML files
+    for action_file in YAML_ACTION_FILES:
+        with open(action_file, "r") as f:
+            action = yaml.safe_load(f)
+
+        action["on"]["workflow_dispatch"]["inputs"]["package_name"]["options"].remove(pkg_name)
+
+        with open(action_file, "w") as f:
+            yaml.dump(action, f, default_flow_style=False)
 
 
 def main():
