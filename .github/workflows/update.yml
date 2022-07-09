@@ -6,11 +6,7 @@ on:
       package_name:
         description: Package name
         required: true
-        type: choice
-        options:
-        - private-hello
-        - public-hello
-        - mydependency
+        type: string
       version:
         description: New version of the package
         required: true
@@ -41,7 +37,7 @@ jobs:
         PKG_VERSION: ${{ inputs.version }}
         PKG_LINK: ${{ inputs.link }}
       run: |
-        pip install beautifulsoup4 ruamel.yaml
+        pip install beautifulsoup4
         python .github/actions.py 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3

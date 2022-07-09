@@ -5,12 +5,8 @@ on:
     inputs:
       package_name:
         description: Package name
-        type: choice
-        options:
-        - private-hello
-        - public-hello
-        - mydependency
         required: true
+        type: string
 
 jobs:
   delete:
@@ -30,7 +26,7 @@ jobs:
         PKG_ACTION: DELETE
         PKG_NAME: ${{ inputs.package_name }}
       run: |
-        pip install beautifulsoup4 ruamel.yaml
+        pip install beautifulsoup4
         python .github/actions.py 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v3
