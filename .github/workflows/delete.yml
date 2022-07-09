@@ -1,0 +1,39 @@
+name: delete
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_name:
+        description: Package name
+        required: true
+        type: string
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Run Action
+      env:
+        PKG_ACTION: DELETE
+        PKG_NAME: ${{ inputs.package_name }}
+      run: |
+        pip install beautifulsoup4
+        python .github/actions.py 
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        commit-message: ':package: [:robot:] Delete package from PyPi index'
+        title: '[🤖] Delete `${{ inputs.package_name }}` from PyPi index'
+        body: Automatically generated PR, deleting `${{ inputs.package_name }}` from
+          PyPi index.
+        branch-suffix: random
+        delete-branch: true

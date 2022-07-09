@@ -1,0 +1,50 @@
+name: update
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_name:
+        description: Package name
+        required: true
+        type: string
+      version:
+        description: New version of the package
+        required: true
+        type: string
+      link:
+        description: 'Link used for `pip`. For example, for a github-hosted package
+          refered by the tag `v3.0.2`, it would be : git+https://github.com/huggingface/transformers@v3.0.2'
+        required: true
+        type: string
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.6]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Run Action
+      env:
+        PKG_ACTION: UPDATE
+        PKG_NAME: ${{ inputs.package_name }}
+        PKG_VERSION: ${{ inputs.version }}
+        PKG_LINK: ${{ inputs.link }}
+      run: |
+        pip install beautifulsoup4
+        python .github/actions.py 
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        commit-message: ':package: [:robot:] Update package in PyPi index'
+        title: '[🤖] Update `${{ inputs.package_name }}` in PyPi index'
+        body: Automatically generated PR, updating `${{ inputs.package_name }}` in PyPi
+          index.
+        branch-suffix: random
+        delete-branch: true
