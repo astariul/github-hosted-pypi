@@ -16,46 +16,6 @@ def normalize(name):
     return re.sub(r"[-_.]+", "-", name).lower()
 
 
-def parse_issue(issue_ctx):
-    arguments = {}
-
-    parts = issue_ctx['body'].split('- **')[1:]      # Ignore the first one : it's the title
-    for text_arg in parts:
-        arg_name, arg_value = text_arg.split(':**')
-        arg_name, arg_value = arg_name.strip(), arg_value.strip()
-        
-        if arg_name == "Long description":
-            # Special case, where we have more than 1 line : it contain HTML code
-            arg_value = arg_value.split('```')[1] if '```' in arg_value else arg_value.split('`')[1]
-            
-            code_lang = arg_value.split('\n')[0].strip()
-            if code_lang != 'html':
-                raise ValueError("The {} argument should contain a HTML code section. But it contain {} code.".format(arg_name, code_lang))
-
-            arg_value = "\n".join(arg_value.split('\n')[1:])
-        else:
-            if "\n" in arg_value:
-                raise ValueError("The {} argument should be a single line. Current value : {}".format(arg_name, arg_value))
-        
-        arguments[arg_name.lower()] = arg_value
-    return arguments
-
-
-def print_args(args):
-    print("\n--- Arguments detected from issue ---\n")
-    for arg_name, arg_value in args.items():
-        print("\t{} : {}".format(arg_name, arg_value))
-    print("\n")
-
-
-def check_args(args, must_have):
-    for name in must_have:
-        if name not in args:
-            raise ValueError("Couldn't find argument {}".format(name))
-        if args[name].strip() == "":
-            raise ValueError("Argument {} is empty. Please specify it".format(name))
-
-
 def package_exists(soup, package_name):
     package_ref = package_name + "/"
     for anchor in soup.find_all('a'):
