@@ -47,7 +47,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Run Action
       env:
-        PKG_ACTION: "REGISTER"
+        PKG_ACTION: REGISTER
         PKG_NAME: ${{ inputs.package_name }}
         PKG_VERSION: ${{ inputs.version }}
         PKG_AUTHOR: ${{ inputs.author }}
