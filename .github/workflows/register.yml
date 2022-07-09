@@ -1,6 +1,6 @@
 name: register
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       package_name:
@@ -33,36 +33,37 @@ on:
         type: string
 
 jobs:
-  register:
+  update:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.6]
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Run Action
-        env:
-          PKG_ACTION: "REGISTER"
-          PKG_NAME: ${{ inputs.package_name }}
-          PKG_VERSION: ${{ inputs.version }}
-          PKG_AUTHOR: ${{ inputs.author }}
-          PKG_SHORT_DESC: ${{ inputs.short_desc }}
-          PKG_LONG_DESC: ${{ inputs.long_desc }}
-          PKG_HOMEPAGE: ${{ inputs.homepage }}
-          PKG_LINK: ${{ inputs.link }}
-        run: |
-          pip install beautifulsoup4 pyyaml
-          python .github/actions.py 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          commit-message: ":package: [:robot:] Register package in PyPi index"
-          title: "[🤖] Register ${{ inputs.package_name }} in PyPi index"
-          body: "Automatically generated PR, registering ${{ inputs.package_name }} in PyPi index."
-          branch-suffix: "random"
-          delete-branch: true
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Run Action
+      env:
+        PKG_ACTION: "REGISTER"
+        PKG_NAME: ${{ inputs.package_name }}
+        PKG_VERSION: ${{ inputs.version }}
+        PKG_AUTHOR: ${{ inputs.author }}
+        PKG_SHORT_DESC: ${{ inputs.short_desc }}
+        PKG_LONG_DESC: ${{ inputs.long_desc }}
+        PKG_HOMEPAGE: ${{ inputs.homepage }}
+        PKG_LINK: ${{ inputs.link }}
+      run: |
+        pip install beautifulsoup4 ruamel.yaml
+        python .github/actions.py 
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        commit-message: ':package: [:robot:] Register package in PyPi index'
+        title: '[🤖] Register ${{ inputs.package_name }} in PyPi index'
+        body: Automatically generated PR, registering ${{ inputs.package_name }} in PyPi
+          index.
+        branch-suffix: random
+        delete-branch: true
