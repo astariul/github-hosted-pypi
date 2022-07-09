@@ -71,7 +71,12 @@ _It will not work, because it's private and only me can access it !_
 
 ## Get started
 
-* Use this template and create your own repository : [![Generic badge](https://img.shields.io/badge/%20-Use%20this%20template-green?style=for-the-badge&color=347d39)](https://github.com/astariul/github-hosted-pypi/generate)
+* Use this template and create your own repository :
+
+<p align="center">
+  <a href="https://github.com/astariul/github-hosted-pypi/generate"><img src="https://img.shields.io/badge/%20-Use%20this%20template-green?style=for-the-badge&color=347d39" alt="Use template" /></a>
+</p>
+
 * Go to `Settings` of your repository, and enable Github Page
 * Customize `index.html` and `pkg_template.html` to your liking
 * You're ready to go ! Visit `<user>.github.io/<repo_name>` to see your PyPi index
