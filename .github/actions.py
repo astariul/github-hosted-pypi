@@ -5,7 +5,7 @@ import re
 import shutil
 
 from bs4 import BeautifulSoup
-import yaml
+from ruamel.yaml import YAML
 
 
 INDEX_FILE = "index.html"
@@ -66,14 +66,15 @@ def register(pkg_name, version, author, short_desc, long_desc, homepage, link):
         f.write(template)
 
     # Finally, add the package in the github actions YAML files
+    yaml = YAML()
     for action_file in YAML_ACTION_FILES:
         with open(action_file, "r") as f:
-            action = yaml.safe_load(f)
+            action = yaml.load(f)
 
         action["on"]["workflow_dispatch"]["inputs"]["package_name"]["options"].append(pkg_name)
 
         with open(action_file, "w") as f:
-            yaml.dump(action, f, default_flow_style=False)
+            yaml.dump(action, f)
 
 
 def update(pkg_name, version, link):
@@ -132,14 +133,15 @@ def delete(pkg_name):
         index.write(soup.prettify("utf-8"))
 
     # Finally, add the package in the github actions YAML files
+    yaml = YAML()
     for action_file in YAML_ACTION_FILES:
         with open(action_file, "r") as f:
-            action = yaml.safe_load(f)
+            action = yaml.load(f)
 
         action["on"]["workflow_dispatch"]["inputs"]["package_name"]["options"].remove(pkg_name)
 
         with open(action_file, "w") as f:
-            yaml.dump(action, f, default_flow_style=False)
+            yaml.dump(action, f)
 
 
 def main():
