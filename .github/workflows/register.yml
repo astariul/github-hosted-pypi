@@ -62,8 +62,8 @@ jobs:
       uses: peter-evans/create-pull-request@v3
       with:
         commit-message: ':package: [:robot:] Register package in PyPi index'
-        title: '[🤖] Register ${{ inputs.package_name }} in PyPi index'
-        body: Automatically generated PR, registering ${{ inputs.package_name }} in PyPi
+        title: '[🤖] Register `${{ inputs.package_name }}` in PyPi index'
+        body: Automatically generated PR, registering `${{ inputs.package_name }}` in PyPi
           index.
         branch-suffix: random
         delete-branch: true
