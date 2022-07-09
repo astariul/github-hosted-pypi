@@ -40,7 +40,7 @@ jobs:
           PKG_VERSION: ${{ inputs.version }}
           PKG_LINK: ${{ inputs.link }}
         run: |
-          pip install beautifulsoup4
+          pip install beautifulsoup4 pyyaml
           python .github/actions.py 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
