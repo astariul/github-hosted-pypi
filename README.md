@@ -71,7 +71,7 @@ _It will not work, because it's private and only me can access it !_
 
 ## Get started
 
-* Use this template and create your own repository : [![Generic badge](https://img.shields.io/badge/Use%20this%20template-blueviolet.svg)](https://github.com/astariul/github-hosted-pypi/generate)
+* Use this template and create your own repository : [![Generic badge](https://img.shields.io/badge/%20-Use%20this%20template-green?style=for-the-badge&color=347d39)](https://github.com/astariul/github-hosted-pypi/generate)
 * Go to `Settings` of your repository, and enable Github Page
 * Customize `index.html` and `pkg_template.html` to your liking
 * You're ready to go ! Visit `<user>.github.io/<repo_name>` to see your PyPi index
@@ -82,8 +82,9 @@ Now that your PyPi index is setup, you can register / update / delete packages i
 _Github actions are setup to do it automatically for you._
 
 You just have to :
-* Open an issue with the appropriate template
-* Fill the information of the template (replace the comments)
+* Go to the `Actions` tab of your repository
+* Click the right workflow (`register` / `update` / `delete`) and trigger it manually
+* Fill the form and start the workflow
 * Wait a bit
 * Check the new PR opened (ensure the code added correspond to what you want)
 * Merge the PR
