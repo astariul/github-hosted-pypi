@@ -12,6 +12,7 @@ Make all your private packages accessible in one place<br>with this github-hoste
   <a href="#get-started">Get Started</a> •
   <a href="#modify-indexed-packages">Modify indexed packages</a> •
   <a href="#faq">FAQ</a> •
+  <a href="#a-word-about-supply-chain-attacks">A word about supply chain attacks</a> •
   <a href="#contribute">Contribute</a> •
   <a href="#references">References</a>
 </p>
@@ -139,7 +140,9 @@ Then from `python`, you can just do :
 import tensorflow
 ```
 
-_Note : While it's possible to do like this, it's better to have a unique name for your package, to avoid confusion._
+---
+
+**But be careful about this !** While it's possible to handle it like this, it's always better to have a unique name for your package, to avoid confusion but also for [security](#a-word-about-supply-chain-attacks) !
 
 #### Q. How to download private package from Docker ?
 
@@ -176,6 +179,21 @@ RUN --mount=type=secret,id=gh_auth,dst=/root/.netrc pip install <package_name> -
 ---
 
 **_If you have any questions or ideas to improve this FAQ, please open a PR / blank issue !_**
+
+## A word about supply chain attacks
+
+As you saw earlier, this github-hosted PyPi index rely on the `pip` feature `--extra-index-url`. Because of how this feature works, it is vulnerable to supply chain attacks.
+
+For example, let's say you have a package named `fbi_package` version `2.8.3` hosted on your private PyPi index.
+
+An attacker could create a malicious package with the same name (`fbi_package`) and a higher version (for example `99.0.0`).  
+When you run `pip install fbi_package --extra-index-url my_pypi_index.com`, under the hood `pip` will download the latest version of the package, which is the malicious package !
+
+---
+
+While this repository makes it very convenient to have your own PyPi index, be aware that the page is public, therefore anyone can see which package name you're using and create a malicious package with this same name...
+
+Please be careful out there !
 
 ## Contribute
 
