@@ -186,7 +186,8 @@ As you saw earlier, this github-hosted PyPi index rely on the `pip` feature `--e
 
 For example, let's say you have a package named `fbi_package` version `2.8.3` hosted on your private PyPi index.
 
-An attacker could create a malicious package with the same name (`fbi_package`) and a higher version (for example `99.0.0`). When you run `pip install fbi_package --extra-index-url my_pypi_index.com`, under the hood `pip` will download the latest version of the package, which is the malicious package !
+An attacker could create a malicious package with the same name (`fbi_package`) and a higher version (for example `99.0.0`).  
+When you run `pip install fbi_package --extra-index-url my_pypi_index.com`, under the hood `pip` will download the latest version of the package, which is the malicious package !
 
 ---
 
