@@ -24,7 +24,7 @@ Make all your private packages accessible in one place<br>with this github-hoste
 * **:octocat: Github-hosted**
 * **🚀 Template ready to deploy**
 * **🔆 Easy to use** through Github Actions
-* **🚨 Warns you if your package is vulnerable to supply chain attacks**
+* **🚨 Secure** : Warns you if your package is vulnerable to supply chain attacks
 
 ## Description
 
