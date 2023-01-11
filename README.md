@@ -200,6 +200,8 @@ While this repository makes it very convenient to have your own PyPi index, be a
 
 That's why we included automated checks into this private PyPi index. Whenever you access the page of your package, PyPi API is called, and if a package with the same name and a higher version is found, the install command is replaced with a warning.
 
+You can see a demo of such warning at [https://astariul.github.io/github-hosted-pypi/transformers/](https://astariul.github.io/github-hosted-pypi/transformers/).
+
 If you see this warning, don't install the package ! Instead, change the name of your package or upgrade the version above its public counterpart.
 
 Be careful out there !
