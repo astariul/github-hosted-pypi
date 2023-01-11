@@ -24,6 +24,7 @@ Make all your private packages accessible in one place<br>with this github-hoste
 * **:octocat: Github-hosted**
 * **🚀 Template ready to deploy**
 * **🔆 Easy to use** through Github Actions
+* **🚨 Warns you if your package is vulnerable to supply chain attacks**
 
 ## Description
 
@@ -101,9 +102,13 @@ You just have to :
 
 As you may know, `pip` can install Github-hosted package if given in the form `pip install git+<repo_link>`. This PyPi index is just an index of links to other Github repository.
 
-Github pages are public, so this PyPi index is public. But it just contain links to other Github repositories, no code is hosted on this PyPi index !.  
+Github pages are public, so this PyPi index is public. But it just contain links to other Github repositories, no code is hosted on this PyPi index !
 
 If the repository hosting code is private, you will need to authenticate with Github to be able to clone it, effectively making it private.
+
+---
+
+If you wonder more specifically about supply chain attacks, check [the section about it](#a-word-about-supply-chain-attacks) !
 
 #### Q. What happen behind the scenes ?
 
@@ -186,14 +191,18 @@ As you saw earlier, this github-hosted PyPi index rely on the `pip` feature `--e
 
 For example, let's say you have a package named `fbi_package` version `2.8.3` hosted on your private PyPi index.
 
-An attacker could create a malicious package with the same name (`fbi_package`) and a higher version (for example `99.0.0`).  
+An attacker could create a malicious package with the same name and a higher version (for example `99.0.0`).  
 When you run `pip install fbi_package --extra-index-url my_pypi_index.com`, under the hood `pip` will download the latest version of the package, which is the malicious package !
 
 ---
 
 While this repository makes it very convenient to have your own PyPi index, be aware that the page is public, therefore anyone can see which package name you're using and create a malicious package with this same name...
 
-Please be careful out there !
+That's why we included automated checks into this private PyPi index. Whenever you access the page of your package, PyPi API is called, and if a package with the same name and a higher version is found, the install command is replaced with a warning.
+
+If you see this warning, don't install the package ! Instead, change the name of your package or upgrade the version above its public counterpart.
+
+Be careful out there !
 
 ## Contribute
 
