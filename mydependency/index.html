@@ -105,10 +105,10 @@
         success: function(jsondata){
           // If the package exists, ensure our package has a higher version
           // And if it doesn't have a higher version, display the danger warning
-          var pypi_version = jsondata['info']['version'];
-          var this_version = document.getElementById('latest-version').textContent.trim();
+          var pypi_vers = jsondata['info']['version'];
+          var this_vers = document.getElementById('latest-version').textContent.trim();
 
-          if (semverCompare(this_version, pypi_version) <= 0) {
+          if (semverCompare(this_vers, pypi_vers) <= 0) {
             document.getElementById('installdanger').hidden = false;
             document.getElementById('installcmd').hidden = true;
           } else {
