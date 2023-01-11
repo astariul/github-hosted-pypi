@@ -79,7 +79,11 @@
       Description
      </h6>
      <p>
-      This is a (safe) example of a package vulnerable to supply chain attacks. Here we registered a private package called `transformers`. But another package with the exact same name and a higher version is registered in the public PyPi index. Running the install command would install the package registered there (which might be malicious), not my private package as intended. If that's the case, a warning is displayed in this page.
+      This is a (safe) example of a package vulnerable to supply chain attacks.
+      <br>
+      Here we registered a private package called <i>transformers</i>. But another package with the exact same name and a higher version is registered in the public PyPi index. Running the install command would install the package registered there (which might be malicious), not my private package as intended.
+      <br>
+      A warning is displayed instead of the install command.
      </p>
     </div>
    </div>
@@ -104,10 +108,10 @@
         success: function(jsondata){
           // If the package exists, ensure our package has a higher version
           // And if it doesn't have a higher version, display the danger warning
-          var pypi3.0 = jsondata['info']['version'];
-          var this3.0 = document.getElementById('latest-version').textContent.trim();
+          var pypi_vers = jsondata['info']['version'];
+          var this_vers = document.getElementById('latest-version').textContent.trim();
 
-          if (semverCompare(this3.0, pypi3.0) <= 0) {
+          if (semverCompare(this_vers, pypi_vers) <= 0) {
             document.getElementById('installdanger').hidden = false;
             document.getElementById('installcmd').hidden = true;
           } else {
