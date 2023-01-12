@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&amp;display=swap" rel="stylesheet" type="text/css"/>
   <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- Our JS -->
+  <script type="text/javascript" src="/pypi_checker.js"></script>
   <!-- Favicon -->
   <link href="https://gist.githubusercontent.com/astariul/c09af596e802e945d3032774e10e1047/raw/f693a2e2b65966494da082887bc4be2917f615e4/random_icon.svg" rel="icon"/>
   <style>
@@ -85,36 +87,14 @@
    </div>
   </div>
   <script>
-    function semverCompare(a, b) {
-      if (a.startsWith(b + "-")) return -1
-      if (b.startsWith(a + "-")) return  1
-      return a.localeCompare(b, undefined, { numeric: true, sensitivity: "case", caseFirst: "upper" })
+    function warn_unsafe() {
+      document.getElementById('installdanger').hidden = false;
+      document.getElementById('installcmd').hidden = true;
     }
 
     $(document).ready(function(){
-      // When accessing this page, check if a package with the same name exists on PyPi
-      $.ajax({
-        type: 'GET',
-        crossDomain: true,
-        dataType: 'json',
-        url: 'https://pypi.org/pypi/_package_name/json',
-        error: function(response) {
-          console.log("Couldn't find a package with the same name on PyPi : you are safe from supply chain attacks.");
-        },
-        success: function(jsondata){
-          // If the package exists, ensure our package has a higher version
-          // And if it doesn't have a higher version, display the danger warning
-          var pypi_vers = jsondata['info']['version'];
-          var this_vers = document.getElementById('latest-version').textContent.trim();
-
-          if (semverCompare(this_vers, pypi_vers) <= 0) {
-            document.getElementById('installdanger').hidden = false;
-            document.getElementById('installcmd').hidden = true;
-          } else {
-            console.log("A package with the same name exists on PyPi, but the version is lower, so you are safe from supply chain attacks.")
-          }
-        }
-      })
+      var this_vers = document.getElementById('latest-version').textContent.trim();
+      check_supply_chain_attack("_package_name", this_vers, warn_unsafe);
     });
   </script>
  </body>
