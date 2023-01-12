@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"/>
+  <!-- Skeleton CSS -->
+  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" rel="stylesheet"/>
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&amp;display=swap" rel="stylesheet" type="text/css"/>
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- Our JS -->
+  <script type="text/javascript" src="../pypi_checker.js"></script>
+  <!-- Favicon -->
+  <link href="https://gist.githubusercontent.com/astariul/c09af596e802e945d3032774e10e1047/raw/f693a2e2b65966494da082887bc4be2917f615e4/random_icon.svg" rel="icon"/>
+  <style>
+   body { font-family: "Montserrat"; }
+   code { 
+    font-size: 100%;
+    display: inline-block !important;
+    font-size: 1.4rem; }
+   .header {
+    margin-top: 15rem;
+    font-size: 3.6rem;
+    font-weight: 400;
+    letter-spacing: -.1rem; }
+   .text-header {
+	 text-transform: uppercase;
+	 font-size: 1.4rem;
+	 letter-spacing: .2rem;
+	 font-weight: 600; }
+   .version {
+	 font-size: 2.3rem; 
+	 font-style: italic;
+    font-weight: 300; }
+   .elem { margin: 1rem 0rem; }
+   .danger-button {
+    text-transform: none;
+    border-color: crimson;
+    font-family: "Montserrat";
+    color: crimson;
+    pointer-events: none;
+    font-size: 1.2rem;
+    margin-bottom: .2rem;
+   }
+  </style>
+  <title>
+   Pypi - YourCompany
+  </title>
+ </head>
+  <body>
+   <div class="container">
+    <section class="header">
+     transformers2
+     <span>
+     </span>
+     <span id='latest-version' class="version">
+      3.0
+     </span>
+    </section>
+    <pre id='installdanger' hidden><button class="danger-button" disabled>DANGER ! A higher version of <i>transformers2</i> already exists on PyPi</button></pre>
+    <pre id='installcmd'><code>pip install transformers2 --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
+    <a href="git+https://github.com/huggingface/transformers@v3.0.2#egg=transformers2-3.0">
+    </a>
+    <hr/>
+    <div class="row">
+     <div class="three columns">
+      <button onclick="location.href='https://github.com/huggingface/transformers'">
+       Homepage
+      </button>
+      <p class="elem">
+       <b>
+        Author :
+       </b>
+       Nicolas Remond
+      </p>
+     </div>
+    <div class="nine columns">
+     <h6 class="text-header">
+      Description
+     </h6>
+     <p>
+      This is a (safe) example of a package vulnerable to supply chain attacks. Here we registered a private package called `transformers`. But another package with the exact same name and a higher version is registered in the public PyPi index. Running the install command would install the package registered there (which might be malicious), not my private package as intended. As you can see, a warning is issued.
+     </p>
+    </div>
+   </div>
+  </div>
+  <script>
+    function warn_unsafe() {
+      document.getElementById('installdanger').hidden = false;
+      document.getElementById('installcmd').hidden = true;
+    }
+
+    $(document).ready(function(){
+      var this_vers = document.getElementById('latest-version').textContent.trim();
+      check_supply_chain_attack("transformers2", this_vers, warn_unsafe);
+    });
+  </script>
+ </body>
+</html>
