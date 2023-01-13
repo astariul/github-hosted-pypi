@@ -8,6 +8,10 @@
   <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" rel="stylesheet"/>
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&amp;display=swap" rel="stylesheet" type="text/css"/>
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <!-- Our JS -->
+  <script type="text/javascript" src="pypi_checker.js"></script>
   <!-- Favicon -->
   <link href="https://gist.githubusercontent.com/astariul/c09af596e802e945d3032774e10e1047/raw/f693a2e2b65966494da082887bc4be2917f615e4/random_icon.svg" rel="icon"/>
   <style>
@@ -42,11 +46,21 @@
 			border: 1px solid #bbb;
 			cursor: pointer;
 			box-sizing: border-box; }
+    .card:hover {
+      border-color: darkcyan;
+      color: darkcyan; }
 		.version {
 			font-size: 1rem; 
 			font-style: italic;}
 		.description {
 			font-weight: 300; }
+    .redalert {
+      border-color: crimson;
+      color: crimson; }
+    .redalert:hover {
+      border-color: tomato;
+      color: tomato;
+    }
   </style>
   <title>
    Pypi - YourCompany
@@ -122,5 +136,20 @@
     </span>
    </a>
   </div>
+  <script>
+    $(document).ready(function(){
+      for (let lnk of document.getElementsByTagName('a')) {
+        var content = lnk.textContent.trim().replace(/\s\s+/g, ' ').split(" ");
+        var pkg_name = content[0];
+        var pkg_vers = content[1];
+
+        function mark_red() {
+          lnk.classList.add("redalert");
+        }
+
+        check_supply_chain_attack(pkg_name, pkg_vers, mark_red);
+      }
+    });
+  </script>
  </body>
 </html>
