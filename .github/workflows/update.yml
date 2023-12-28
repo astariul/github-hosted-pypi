@@ -11,11 +11,6 @@ on:
         description: New version of the package
         required: true
         type: string
-      link:
-        description: 'Link used for `pip`. For example, for a github-hosted package
-          refered by the tag `v3.0.2`, it would be : git+https://github.com/huggingface/transformers@v3.0.2'
-        required: true
-        type: string
 
 jobs:
   update:
@@ -35,7 +30,6 @@ jobs:
         PKG_ACTION: UPDATE
         PKG_NAME: ${{ inputs.package_name }}
         PKG_VERSION: ${{ inputs.version }}
-        PKG_LINK: ${{ inputs.link }}
       run: |
         pip install beautifulsoup4
         python .github/actions.py 
