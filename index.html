@@ -43,6 +43,18 @@
    <h6 class="text-header">
     Packages
    </h6>
+   <a class="card" href="" id="placeholder_card" style="display: none;">
+    placeholder_name
+    <span>
+    </span>
+    <span class="version">
+     placehholder_version
+    </span>
+    <br/>
+    <span class="description">
+     placeholder_description
+    </span>
+   </a>
    <a class="card" href="private-hello/">
     private-hello
     <span>
@@ -92,8 +104,11 @@
     </span>
    </a>
   </div>
+  <footer class="footer">
+   (c) All Rights Reserved to Whatever Ltd. 2023.
+  </footer>
   <script>
-    $(document).ready(function(){
+   $(document).ready(function(){
       for (let lnk of document.getElementsByTagName('a')) {
         var content = lnk.textContent.trim().replace(/\s\s+/g, ' ').split(" ");
         var pkg_name = content[0];

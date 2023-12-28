@@ -24,53 +24,84 @@
   </title>
  </head>
  
-  <body>
-   <div class="container">
+<body>
+  <div class="container">
     <section class="header">
-     _package_name
-     <span>
-     </span>
-     <span id='latest-version' class="version">
-      _version
-     </span>
+      <a href="/github-hosted-pypi" class="goback-button">
+        <svg width="50" height="50">
+            <circle cx="25" cy="25" r="20" fill="#1EAEDB" />
+            <path d="M15 25l10-10v5h10v10h-10v5z" fill="white" />
+        </svg>
+      </a>
+      _package_name
+      <span>
+      </span>
+      <span id='latest-version' class="version">
+        _version
+      </span>
+      <span id='latest-main-version' hidden>
+        _latest_main
+      </span>
     </section>
-    <pre id='installdanger' hidden><button class="danger-button" disabled>DANGER ! A higher version of <i>_package_name</i> already exists on PyPi</button></pre>
-    <pre id='installcmd'><code>pip install _package_name --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
-    <a href="_link">
-    </a>
-    <hr/>
+    <pre id='installdanger'
+      hidden><button class="danger-button" disabled>DANGER ! A higher version of <i>_package_name</i> already exists on PyPi</button></pre>
+    <pre
+      id='installcmd'><code>pip install _package_name --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
+    <hr />
     <div class="row">
-     <div class="three columns">
-      <button onclick="location.href='_homepage'">
-       Homepage
-      </button>
-      <p class="elem">
-       <b>
-        Author :
-       </b>
-       _author
-      </p>
-     </div>
-    <div class="nine columns">
-     <h6 class="text-header">
-      Description
-     </h6>
-     <p>
-      _long_description
-     </p>
+      <div class="three columns">
+        <b>
+          Project links :
+        </b>
+        <a href="_homepage" target="_blank" id="repoHomepage">
+          <button>
+              Github Repository
+          </button>
+      </a>
+        <p class="elem">
+          <b>
+            Author :
+          </b>
+          _author
+        </p>
+        <section class="versions" id="versions">
+          <div onclick="load_readme('_version', scroll_to_div=true)" id="_version">
+            <a>
+              _version
+            </a>
+            <a href="_link">
+            </a>
+          </div>
+        </section>
+      </div>
+      <div class="nine columns" id="description_pkg">
+        <h6 class="text-header">
+          Description
+        </h6>
+        <p id="markdown-container" class="readme-block">
+        </p>
+      </div>
     </div>
-   </div>
   </div>
+  <footer class="footer">
+    (c) All Rights Reserved to Whatever Ltd. 2023.
+   </footer>
   <script>
-    function warn_unsafe() {
-      document.getElementById('installdanger').hidden = false;
-      document.getElementById('installcmd').hidden = true;
-    }
-
-    $(document).ready(function(){
-      var this_vers = document.getElementById('latest-version').textContent.trim();
+    var url_readme_main = '_long_description';
+    
+    $(document).ready(function () {
+      var this_vers = document.getElementById('latest-main-version').textContent.trim();
+      document.getElementById(this_vers).classList.add('main');
       check_supply_chain_attack("_package_name", this_vers, warn_unsafe);
+    
+      if (window.location.hash != "") {
+        let version_hash = window.location.hash;
+        version = version_hash.replace('#', '');
+        load_readme(version, scroll_to_div=true);
+        return;
+      }
+      load_readme(this_vers);
     });
   </script>
- </body>
+</body>
 </html>
