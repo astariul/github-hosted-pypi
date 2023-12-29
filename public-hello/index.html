@@ -30,14 +30,14 @@
  <body>
   <div class="container">
    <section class="header">
-    <a class="goback-button" href="/github-hosted-pypi">
+    <button class="goback-button" onclick="redirectToIndex()">
      <svg height="50" width="50">
       <circle cx="25" cy="25" fill="#1EAEDB" r="20">
       </circle>
       <path d="M15 25l10-10v5h10v10h-10v5z" fill="white">
       </path>
      </svg>
-    </a>
+    </button>
     public-hello
     <span>
     </span>
@@ -48,8 +48,14 @@
      0.2
     </span>
    </section>
-   <pre hidden="" id="installdanger"><button class="danger-button" disabled="">DANGER ! A higher version of <i>public-hello</i> already exists on PyPi</button></pre>
-   <pre id="installcmd"><code>pip install public-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/</code></pre>
+   <pre hidden="" id="installdanger">
+      <button class="danger-button" disabled="">
+        DANGER ! A higher version of <i>public-hello</i> already exists on PyPi
+      </button>
+    </pre>
+   <pre id="installcmd">
+      <code>pip install public-hello --extra-index-url https://astariul.github.io/github-hosted-pypi/</code>
+    </pre>
    <hr/>
    <div class="row">
     <div class="three columns">
@@ -93,9 +99,6 @@
     </div>
    </div>
   </div>
-  <footer class="footer">
-   (c) All Rights Reserved to Whatever Ltd. 2023.
-  </footer>
   <script>
    var url_readme_main = 'https://raw.githubusercontent.com/astariul/public-hello/main/README.md';
     
