@@ -10,6 +10,20 @@ INDEX_FILE = "index.html"
 TEMPLATE_FILE = "pkg_template.html"
 YAML_ACTION_FILES = [".github/workflows/delete.yml", ".github/workflows/update.yml"]
 
+INDEX_CARD_HTML = '''
+<a class="card" href="">
+    placeholder_name
+    <span>
+    </span>
+    <span class="version">
+        placehholder_version
+    </span>
+    <br/>
+    <span class="description">
+        placeholder_description
+    </span>
+</a>'''
+
 
 def normalize(name):
     """ From PEP503 : https://www.python.org/dev/peps/pep-0503/ """
@@ -46,18 +60,17 @@ def register(pkg_name, version, author, short_desc, homepage):
         raise ValueError("Package {} seems to already exists".format(norm_pkg_name))
 
     # Create a new anchor element for our new package
-    placeholder_card = soup.find('a', id='placeholder_card')
-    new_skill = copy.copy(placeholder_card)
-    new_skill['href'] = "{}/".format(norm_pkg_name)
-    new_skill.attrs.pop('style', None)
-    new_skill.attrs.pop('id', None)
-    new_skill.contents[0].replace_with(pkg_name)
-    spans = new_skill.find_all('span')
+    placeholder_card = BeautifulSoup(INDEX_CARD_HTML, 'html.parser')
+    placeholder_card = placeholder_card.find('a')
+    new_package = copy.copy(placeholder_card)
+    new_package['href'] = "{}/".format(norm_pkg_name)
+    new_package.contents[0].replace_with(pkg_name)
+    spans = new_package.find_all('span')
     spans[1].string = version       # First span contain the version
     spans[2].string = short_desc    # Second span contain the short description
 
     # Add it to our index and save it
-    placeholder_card.insert_after(new_skill)
+    soup.find('h6', class_='text-header').insert_after(new_package)
     with open(INDEX_FILE, 'wb') as index:
         index.write(soup.prettify("utf-8"))
 
