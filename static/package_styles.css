@@ -114,7 +114,7 @@ button:hover {
   position: relative;
 }
 
-.selected.main::after {
+.main::after {
   content: "Latest stable"; /* Text to display */
   position: absolute;
   right: 15px; /* Adjust as needed */
