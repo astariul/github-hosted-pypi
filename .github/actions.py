@@ -34,20 +34,6 @@ def transform_github_url(input_url):
     return raw_url
 
 
-def find_homepage_url(soup):
-    # Find the button with the onclick attribute containing the URL
-    button = soup.find("button", onclick=lambda x: "location.href" in x)
-    if button:
-        # Extract the URL from the onclick attribute
-        onclick_attr = button.get("onclick")
-        url_start = onclick_attr.find("'") + 1
-        url_end = onclick_attr.rfind("'")
-        homepage_url = onclick_attr[url_start:url_end]
-        return homepage_url
-    else:
-        return None  # If the button is not found
-
-
 def register(pkg_name, version, author, short_desc, homepage):
     link = f'git+{homepage}@{version}'
     long_desc = transform_github_url(homepage)
@@ -180,7 +166,9 @@ def main():
             homepage=os.environ["PKG_HOMEPAGE"],
         )
     elif action == "DELETE":
-        delete(pkg_name=os.environ["PKG_NAME"])
+        delete(
+            pkg_name=os.environ["PKG_NAME"]
+        )
     elif action == "UPDATE":
         update(
             pkg_name=os.environ["PKG_NAME"],
