@@ -157,8 +157,10 @@ body {
   overflow: hidden;
   width: fit-content;
   height: fit-content; 
-  color: #1EAEDB;
-  background-color: white;
+  background-color: #1EAEDB;
+  padding-left: 0%;
+  padding-right: 0%;
+  margin-bottom: 0%;
 }
 
 .goback-butto svg path {

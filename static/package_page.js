@@ -31,6 +31,8 @@ function warn_unsafe() {
   document.getElementById('installcmd').hidden = true;
 }
 
-
+function redirectToIndex() {
+  window.location.href = "../index.html";
+}
 
 
