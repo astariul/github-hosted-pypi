@@ -95,7 +95,7 @@ def register(pkg_name, version, author, short_desc, homepage):
     template = template.replace("_homepage", homepage)
     template = template.replace("_author", author)
     template = template.replace("_long_description", long_desc)
-    template = template.replace("_latest_main", norm_version)
+    template = template.replace("_latest_main", version)
 
     os.mkdir(norm_pkg_name)
     package_index = os.path.join(norm_pkg_name, INDEX_FILE)
