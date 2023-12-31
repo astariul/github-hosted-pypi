@@ -136,7 +136,7 @@ def update(pkg_name, version):
     original_div = soup.find('section', class_='versions').findAll('div')[-1]
     new_div = copy.copy(original_div)
     anchor = new_div.find('a')
-    anchor['onclick'] = f"load_readme('{version}', scroll_to_div=true)"
+    new_div['onclick'] = f"load_readme('{version}', scroll_to_div=true);"
     new_div['id'] = norm_version
     new_div['class'] = ""
     if not is_stable(version):
