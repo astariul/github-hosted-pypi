@@ -67,9 +67,9 @@
     <div class="row">
       <div class="three columns">
         <b>
-          Project links :
+          Project links
         </b>
-        <button onclick="location.href='https://github.com/huggingface/transformers'" id="repoHomepage">
+        <button id="repoHomepage" onclick="openLinkInNewTab('https://github.com/huggingface/transformers')">
           Homepage
         </button>
         <p class="elem">
@@ -79,8 +79,8 @@
           Nicolas Remond
         </p>
         <section class="versions" id="versions">
-          <div id="3.0.0">
-            <a href="git+https://github.com/huggingface/transformers@v3.0.0#egg=transformers-3.0.0" onclick="load_readme('3.0.0', scroll_to_div=true)">
+          <div id="3.0.0" onclick="load_readme('3.0.0', scroll_to_div=true)">
+            <a href="git+https://github.com/huggingface/transformers@v3.0.0#egg=transformers-3.0.0">
               3.0.0
             </a>
           </div>
