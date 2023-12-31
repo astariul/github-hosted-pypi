@@ -89,7 +89,8 @@ def register(pkg_name, version, author, short_desc, homepage):
         template = temp_file.read()
 
     template = template.replace("_package_name", pkg_name)
-    template = template.replace("_version", norm_version)
+    template = template.replace("_norm_version", norm_version)
+    template = template.replace("_version", version)
     template = template.replace("_link", f"{link}#egg={norm_pkg_name}-{norm_version}")
     template = template.replace("_homepage", homepage)
     template = template.replace("_author", author)
