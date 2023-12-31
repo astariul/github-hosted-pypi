@@ -27,6 +27,10 @@ code {
   font-weight: 600;
 }
 
+#repoHomepage {
+  margin-top: 1rem;
+}
+
 .version {
   font-size: 2.3rem;
   font-style: italic;
@@ -49,7 +53,7 @@ code {
   margin-bottom: .2rem;
 }
 
-button {
+button, button:focus {
   border-color: #1EAEDB;
   color: #1EAEDB;
 }
