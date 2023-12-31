@@ -62,11 +62,9 @@
      <b>
       Project links :
      </b>
-     <a href="https://github.com/astariul/public-hello" id="repoHomepage" target="_blank">
-      <button>
-       Github Repository
-      </button>
-     </a>
+     <button id="repoHomepage" onclick="location.href='https://github.com/astariul/public-hello'">
+      Homepage
+     </button>
      <p class="elem">
       <b>
        Author :
@@ -74,18 +72,19 @@
       Nicolas Remond
      </p>
      <section class="versions" id="versions">
-      <div id="0.1" onclick="load_readme('0.1', scroll_to_div=true)">
-       <a>
+      <div id="0.1">
+       <a href="git+https://github.com/astariul/public-hello@0.1#egg=public-hello-0.1" onclick="load_readme('0.1', scroll_to_div=true)">
         0.1
        </a>
-       <a href="git+https://github.com/astariul/public-hello@0.1#egg=public-hello-0.1">
-       </a>
       </div>
-      <div class="" id="0.2" onclick="load_readme('0.2', scroll_to_div=true)">
-       <a>
+      <div class="" id="0.2">
+       <a href="git+https://github.com/astariul/public-hello@0.2#egg=public-hello-0.2" onclick="load_readme('0.2', scroll_to_div=true)">
         0.2
        </a>
-       <a href="git+https://github.com/astariul/public-hello@0.2#egg=public-hello-0.2">
+      </div>
+      <div class="prerelease" id="0.3.dev0">
+       <a href="git+https://github.com/astariul/public-hello@0.3.dev0#egg=public-hello-0.3.dev0" onclick="load_readme('0.3.dev0', scroll_to_div=true)">
+        0.3.dev0
        </a>
       </div>
      </section>

@@ -30,6 +30,15 @@ def normalize(name):
     return re.sub(r"[-_.]+", "-", name).lower()
 
 
+def normalize_version(version):
+    version = version.lower()
+    return version[1:] if version.startswith("v") else version
+
+
+def is_stable(version):
+    return not ("dev" in version or "a" in version or "b" in version or "rc" in version)
+
+
 def package_exists(soup, package_name):
     package_ref = package_name + "/"
     for anchor in soup.find_all('a'):
@@ -55,18 +64,19 @@ def register(pkg_name, version, author, short_desc, homepage):
     with open(INDEX_FILE) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
     norm_pkg_name = normalize(pkg_name)
+    norm_version = normalize_version(version)
 
     if package_exists(soup, norm_pkg_name):
-        raise ValueError("Package {} seems to already exists".format(norm_pkg_name))
+        raise ValueError(f"Package {norm_pkg_name} seems to already exists")
 
     # Create a new anchor element for our new package
     placeholder_card = BeautifulSoup(INDEX_CARD_HTML, 'html.parser')
     placeholder_card = placeholder_card.find('a')
     new_package = copy.copy(placeholder_card)
-    new_package['href'] = "{}/".format(norm_pkg_name)
+    new_package['href'] = f"{norm_pkg_name}/"
     new_package.contents[0].replace_with(pkg_name)
     spans = new_package.find_all('span')
-    spans[1].string = version       # First span contain the version
+    spans[1].string = norm_version  # First span contain the version
     spans[2].string = short_desc    # Second span contain the short description
 
     # Add it to our index and save it
@@ -79,12 +89,12 @@ def register(pkg_name, version, author, short_desc, homepage):
         template = temp_file.read()
 
     template = template.replace("_package_name", pkg_name)
-    template = template.replace("_version", version)
-    template = template.replace("_link", "{}#egg={}-{}".format(link, norm_pkg_name, version))
+    template = template.replace("_version", norm_version)
+    template = template.replace("_link", f"{link}#egg={norm_pkg_name}-{norm_version}")
     template = template.replace("_homepage", homepage)
     template = template.replace("_author", author)
     template = template.replace("_long_description", long_desc)
-    template = template.replace("_latest_main", version)
+    template = template.replace("_latest_main", norm_version)
 
     os.mkdir(norm_pkg_name)
     package_index = os.path.join(norm_pkg_name, INDEX_FILE)
@@ -97,16 +107,18 @@ def update(pkg_name, version):
     with open(INDEX_FILE) as html_file:
         soup = BeautifulSoup(html_file, "html.parser")
     norm_pkg_name = normalize(pkg_name)
+    norm_version = normalize_version(version)
 
     if not package_exists(soup, norm_pkg_name):
-        raise ValueError("Package {} seems to not exists".format(norm_pkg_name))
+        raise ValueError(f"Package {norm_pkg_name} seems to not exists")
 
-    # Change the version in the main page
-    anchor = soup.find('a', attrs={"href": "{}/".format(norm_pkg_name)})
-    spans = anchor.find_all('span')
-    spans[1].string = version
-    with open(INDEX_FILE, 'wb') as index:
-        index.write(soup.prettify("utf-8"))
+    # Change the version in the main page (only if stable)
+    if is_stable(version):
+        anchor = soup.find('a', attrs={"href": f"{norm_pkg_name}/"})
+        spans = anchor.find_all('span')
+        spans[1].string = norm_version
+        with open(INDEX_FILE, 'wb') as index:
+            index.write(soup.prettify("utf-8"))
 
     # Change the package page
     index_file = os.path.join(norm_pkg_name, INDEX_FILE) 
@@ -114,33 +126,34 @@ def update(pkg_name, version):
         soup = BeautifulSoup(html_file, "html.parser")
         
     # Extract the URL from the onclick attribute
-    button = soup.find('a', id='repoHomepage')
+    button = soup.find('button', id='repoHomepage')
     if button:
-        link = button.get("href")
+        link = button.get("onclick")[len("location.href='"):-1]
     else:
         raise Exception("Homepage URL not found")
 
     # Create a new anchor element for our new version
     original_div = soup.find('section', class_='versions').findAll('div')[-1]
     new_div = copy.copy(original_div)
-    anchors = new_div.find_all('a')
-    new_div['onclick'] = "load_readme('{}', scroll_to_div=true)".format(version)
-    new_div['id'] = version
+    anchor = new_div.find('a')
+    anchor['onclick'] = f"load_readme('{version}', scroll_to_div=true)"
+    new_div['id'] = norm_version
     new_div['class'] = ""
-    if 'dev' in version:
+    if not is_stable(version):
         new_div['class'] += "prerelease"
     else:
         # replace the latest main version
         main_version_span = soup.find('span', id='latest-main-version')
-        main_version_span.string = version
-    anchors[0].string = version
-    anchors[1]['href'] = "git+{}@{}#egg={}-{}".format(link,version,norm_pkg_name,version)
+        main_version_span.string = norm_version
+    anchor.string = norm_version
+    anchor['href'] = f"git+{link}@{version}#egg={norm_pkg_name}-{norm_version}"
 
     # Add it to our index
     original_div.insert_after(new_div)
 
-    # Change the latest version
-    soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(version) 
+    # Change the latest version (if stable)
+    if is_stable(version):
+        soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(norm_version)
 
     # Save it
     with open(index_file, 'wb') as index:
@@ -154,13 +167,13 @@ def delete(pkg_name):
     norm_pkg_name = normalize(pkg_name)
 
     if not package_exists(soup, norm_pkg_name):
-        raise ValueError("Package {} seems to not exists".format(norm_pkg_name))
+        raise ValueError(f"Package {norm_pkg_name} seems to not exists")
 
     # Remove the package directory
     shutil.rmtree(norm_pkg_name)
 
     # Find and remove the anchor corresponding to our package
-    anchor = soup.find('a', attrs={"href": "{}/".format(norm_pkg_name)})
+    anchor = soup.find('a', attrs={"href": f"{norm_pkg_name}/"})
     anchor.extract()
     with open(INDEX_FILE, 'wb') as index:
         index.write(soup.prettify("utf-8"))

@@ -8,7 +8,7 @@ on:
         required: true
         type: string
       version:
-        description: 'Version of the package'
+        description: 'Version of the package (tag name)'
         required: true
         type: string
       author:
