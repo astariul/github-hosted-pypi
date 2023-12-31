@@ -138,14 +138,14 @@ def update(pkg_name, version):
     new_div = copy.copy(original_div)
     anchor = new_div.find('a')
     new_div['onclick'] = f"load_readme('{version}', scroll_to_div=true);"
-    new_div['id'] = norm_version
+    new_div['id'] = version
     new_div['class'] = ""
     if not is_stable(version):
         new_div['class'] += "prerelease"
     else:
         # replace the latest main version
         main_version_span = soup.find('span', id='latest-main-version')
-        main_version_span.string = norm_version
+        main_version_span.string = version
     anchor.string = norm_version
     anchor['href'] = f"git+{link}@{version}#egg={norm_pkg_name}-{norm_version}"
 
@@ -154,7 +154,7 @@ def update(pkg_name, version):
 
     # Change the latest version (if stable)
     if is_stable(version):
-        soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(norm_version)
+        soup.html.body.div.section.find_all('span')[1].contents[0].replace_with(version)
 
     # Save it
     with open(index_file, 'wb') as index:
