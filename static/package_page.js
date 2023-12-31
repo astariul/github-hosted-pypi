@@ -1,3 +1,7 @@
+function openLinkInNewTab(link) {
+  window.open(link, '_blank');
+}
+
 function load_readme(version, scroll_to_div=false){
   addDynamicClickDelegation(`${version}`);
 
