@@ -98,20 +98,12 @@
   </div>
   
   <script>
-    var url_readme_main = 'https://raw.githubusercontent.com/huggingface/transformers/main/README.md';
-    
     $(document).ready(function () {
       var this_vers = document.getElementById('latest-main-version').textContent.trim();
       document.getElementById(this_vers).classList.add('main');
       check_supply_chain_attack("transformers", this_vers, warn_unsafe);
-    
-      if (window.location.hash != "") {
-        let version_hash = window.location.hash;
-        version = version_hash.replace('#', '');
-        load_readme(version, scroll_to_div=true);
-        return;
-      }
-      load_readme(this_vers);
+
+      put_readme(this_vers, "This is a (safe) example of a package vulnerable to supply chain attacks. Here we registered a private package called `transformers`. But another package with the exact same name and a higher version is registered in the public PyPi index. Running the install command would install the package registered there (which might be malicious), not my private package as intended. If that's the case, a warning is displayed in this page.");
     });
   </script>
 </body>

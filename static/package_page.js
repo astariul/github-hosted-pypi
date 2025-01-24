@@ -32,6 +32,20 @@ function load_readme(version, scroll_to_div=false){
   });
 }
 
+function put_readme(version, markupContent, scroll_to_div=false){
+  addDynamicClickDelegation(`${version}`);
+
+  const contentDivs = document.querySelectorAll('.versions div');
+  contentDivs.forEach(div => div.classList.remove('selected'));
+
+  document.getElementById(version).classList.add('selected');
+  document.getElementById('markdown-container').innerHTML = marked.parse(markupContent);
+  if (scroll_to_div) {
+    // document.getElementById('description_pkg').scrollIntoView();
+    history.replaceState(null, null, '#'+version);
+  }
+}
+
 function warn_unsafe() {
   document.getElementById('installdanger').hidden = false;
   document.getElementById('installcmd').hidden = true;
