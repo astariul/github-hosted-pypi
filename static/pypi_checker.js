@@ -1,4 +1,10 @@
 function semverCompare(a, b) {
+    // Remove leading letters, such as `v` (`v4.23` becomes `4.23`)
+    const clean = (v) => v.replace(/^[a-zA-Z]+/, "");
+    a = clean(a);
+    b = clean(b);
+
+    // Actual comparison
     if (a.startsWith(b + "-")) return -1
     if (b.startsWith(a + "-")) return  1
     return a.localeCompare(b, undefined, { numeric: true, sensitivity: "case", caseFirst: "upper" })
